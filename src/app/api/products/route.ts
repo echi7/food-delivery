@@ -1,6 +1,5 @@
+import prisma from "@/utils/connect";
 import { NextResponse } from "next/server"
-
-const prisma = new PrismaClient()
 
 // FETCH ALL PRODUCTS
 export const GET = async () => {
