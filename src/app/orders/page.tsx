@@ -1,7 +1,7 @@
 "use client"
 
 import { OrderType } from "@/types/types";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,17 +19,35 @@ const OrdersPage = () => {
     queryKey:['orders'],
     queryFn: () =>
       fetch('http://localhost:3000/api/orders').then((res) => res.json()),
+    });
+
+    const queryClient = useQueryClient()
+
+    const mutation = useMutation({
+      mutationFn: ({id, status}:{id:string, status:string})=>{
+        return fetch(`http://localhost:3000/api/orders/${id}`,{
+          method: "PUT",
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify(status)
+        });
+      },
+      onSuccess() {
+        queryClient.invalidateQueries({queryKey: ["orders"]});
+      }
     })
 
-  if (isLoading || status === "loading") return 'Loading...'
+    const handleUpdate = (e:React.FormEvent<HTMLFormElement>, id:string) => {
+      e.preventDefault()
+      const form = e.target as HTMLFormElement;
+      const input = form.elements[0] as HTMLInputElement
+      const status = input.value
 
-  const handleUpdate = (e:React.FormEvent<HTMLFormElement>, id:string) => {
-    e.preventDefault()
-    const form = e.target as HTMLFormElement;
-    const input = form.elements[0] as HTMLInputElement
-    const status = input.value
-  };
+      mutation.mutate({id, status})
+    };
 
+    if (isLoading || status === "loading") return 'Loading...'
   return (
     <div className="p-4 lg:px-20 xl:px-40">
       <table className="w-full border-separate border-spacing-3">
