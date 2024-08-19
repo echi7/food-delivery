@@ -9,9 +9,11 @@ const [quantity, setQuantity] = useState(1);
 const [selected, setSelected] = useState(0);
 
 useEffect(() => {
+    if(product.options?.length){
     setTotal(
-        quantity * (product.options?.length ? product.price + product.options[selected].additionalPrice : product.price)
+        quantity * product.price + product.options[selected].additionalPrice
     );
+}
 }, [quantity, selected, product]);
 
     return (
