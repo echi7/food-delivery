@@ -8,9 +8,9 @@ import { useCartStore } from "@/utils/store";
 const CartIcon = () => {
     const {totalItems} = useCartStore();
 
-    useEffect(()=>{
-        useCartStore.persist.rehydrate()
-    },[])
+    // useEffect(()=>{
+    //     useCartStore.persist.rehydrate()
+    // },[])
 
     return (
         <Link href="/cart" className='flex items-center gap-4'>

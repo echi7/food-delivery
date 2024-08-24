@@ -10,18 +10,18 @@ const [total, setTotal] = useState(product.price);
 const [quantity, setQuantity] = useState(1);
 const [selected, setSelected] = useState(0);
 
-const {addToCart} = useCartStore()
+const { addToCart } = useCartStore();
 
-useEffect(()=>{
-    useCartStore.persist.rehydrate()
-},[])
+// useEffect(()=>{
+//     useCartStore.persist.rehydrate()
+// },[])
 
 useEffect(() => {
-    if(product.options?.length){
-    setTotal(
-        quantity * product.price + product.options[selected].additionalPrice
-    );
-}
+        if(product.options?.length){
+        setTotal(
+            quantity * product.price + product.options[selected].additionalPrice
+        );
+    }
 }, [quantity, selected, product]);
 
 const handleCart = () => {
