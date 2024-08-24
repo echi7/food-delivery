@@ -12,6 +12,10 @@ const [selected, setSelected] = useState(0);
 
 const {addToCart} = useCartStore()
 
+useEffect(()=>{
+    useCartStore.persist.rehydrate()
+},[])
+
 useEffect(() => {
     if(product.options?.length){
     setTotal(
