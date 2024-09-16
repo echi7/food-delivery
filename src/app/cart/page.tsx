@@ -12,7 +12,7 @@ const CartPage = () => {
   const {data:session} = useSession()
   const router = useRouter()
 
-  const handleCheckout = async  () => {
+  const handleCheckout = async () => {
     if (!session) {
       router.push("/");
     } else {
@@ -27,7 +27,7 @@ const CartPage = () => {
             userEmail: session.user.email,
           }),
         });
-        const data =await res.json()
+        const data = await res.json()
         router.push(`/pay/${data.id}`)
       } catch (err) {
         console.log(err);
